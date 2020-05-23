@@ -5,6 +5,7 @@ from decimal import Decimal
 import pytest
 
 from phone_mast.views import PhoneMastData, read_csv
+from phone_mast.exceptions import InvalidDateFormat
 
 
 @pytest.fixture
@@ -166,3 +167,11 @@ def test_no_csv_file():
     result = read_csv(file_name='no_file.csv')
 
     assert len(result) == 0
+
+
+def test_filter_by_lease_start_date_invalid_formate(phone_mast_data_csv):
+    phone_mast = PhoneMastData(csv_file='test.csv')
+    with pytest.raises(InvalidDateFormat):
+        os.remove('test.csv')
+        result = phone_mast.filter_by_lease_start_date('06-01-1999', '2001-07-31')
+        

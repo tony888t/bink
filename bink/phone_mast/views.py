@@ -4,9 +4,9 @@ from datetime import datetime
 from decimal import Decimal
 from pprint import pprint
 
+from .exceptions import InvalidDateFormat
 from django.conf import settings
 from django.shortcuts import render
-from django.views import View
 
 
 def read_csv(file_name=None):
@@ -65,8 +65,11 @@ class PhoneMastData:
         for data in property_data:
             data['Lease Start Date'] = datetime.strptime(data['Lease Start Date'], '%d %b %Y')
 
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        try:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        except ValueError:
+            raise InvalidDateFormat('Date formate needs to be YYYY-MM-DD')
 
         filtered_data_by_date = [
             data for data in property_data if start_date < data['Lease Start Date'] < end_date
