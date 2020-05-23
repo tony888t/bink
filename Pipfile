@@ -5,9 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 ipdb = "*"
+flake8 = "*"
 
 [packages]
 django = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.8"
