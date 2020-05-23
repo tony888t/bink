@@ -1,6 +1,7 @@
 import os
 import csv
 from decimal import Decimal
+from pprint import pprint
 
 from django.conf import settings
 from django.shortcuts import render
@@ -43,6 +44,19 @@ class PhoneMastData:
         print(filtered_data)
         print(f'Total rent: {total_rent}')
         return [filtered_data, total_rent]
+
+    def count_mast_by_tenant(self):
+        property_data = self.data_file
+        tenants = {}
+
+        for data in property_data:
+            if tenants.get(data['Tenant Name']):
+                tenants[data['Tenant Name']] += 1
+            else:
+                tenants[data['Tenant Name']] = 1
+
+        pprint(tenants)
+        return tenants
 
 
 def get_operation(request):

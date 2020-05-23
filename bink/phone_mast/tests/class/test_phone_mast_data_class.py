@@ -138,3 +138,12 @@ def test_filter_by_lease(phone_mast_data_csv):
 
     assert len(result[0]) == 2
     assert result[1] == Decimal('21750.00')
+
+
+def test_tenant_mast_count(phone_mast_data_csv):
+    phone_mast = PhoneMastData(csv_file='test.csv')
+    result = phone_mast.count_mast_by_tenant()
+
+    assert len(result) == 5
+    assert result['Arqiva Ltd'] == 1
+    assert result['Cornerstone Telecommunications Infrastructure'] == 2
