@@ -1,11 +1,25 @@
 <h2>Selection</h2>
 
-<select>
-    <option>
-        Sort current rent
-    </option>
-</select>
-
+<ul>
+    <li><a href='current-rent'>Sort data by Current Rent</a></li>
+    <li><a href='filter-lease'>Filter lease where year is 25</a></li>
+    <li><a href='tenants'>Count number of mast for each tenant</a></li>
+    <li><a href='lease-dates'>Filter lease start date by range</a></li>
+</ul>
 
 <h2>Data</h2>
-{{property_data}}
+<ul>
+{% if tenants %}
+    {% for key, value in property_data.items %}
+        <li>{{key}} - {{value}}</li>
+    {% endfor %}
+{% else %}
+    {% for data in property_data %}
+        <li>{{data}}</li>
+    {% endfor %}
+{% endif %}
+</ul>
+
+{% if total_rent %}
+<h3>Total: {{total_rent}}</h3>
+{% endif %}

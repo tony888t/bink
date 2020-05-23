@@ -113,7 +113,7 @@ def filter_by_lease(request):
     return render(
         request,
         'index.html',
-        {'property_data': data}
+        {'property_data': data, 'total_rent': rent}
     )
 
 
@@ -128,13 +128,13 @@ def tenant_count(request):
     return render(
         request,
         'index.html',
-        {'property_data': data}
+        {'property_data': data, 'tenants': True}
     )
 
 
 def filter_lease_date(request):
     """
-    Count mast by tenants.
+    Filter by lease date.
     """
     file_path = os.path.join(settings.BASE_DIR, 'phone_mast/test_data/may2020_test_data.csv')
     phone_mast_data = PhoneMastData(csv_file=file_path)
