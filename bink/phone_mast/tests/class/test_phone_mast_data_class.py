@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from phone_mast.views import PhoneMastData
+from phone_mast.views import PhoneMastData, read_csv
 
 
 @pytest.fixture
@@ -115,8 +115,7 @@ def phone_mast_data_csv():
 
 
 def test_read_csv(phone_mast_data_csv):
-    phone_mast = PhoneMastData(csv_file='test.csv')
-    result = phone_mast.read_csv()
+    result = read_csv(file_name='test.csv')
     os.remove('test.csv')
 
     assert len(result) > 0
@@ -130,3 +129,12 @@ def test_sort_by_current_rent(phone_mast_data_csv):
     assert len(result) > 0
     assert Decimal(result[0]['Current Rent']) == Decimal(6600)
     assert Decimal(result[-1]['Current Rent']) == Decimal(23950)
+
+
+def test_filter_by_lease(phone_mast_data_csv):
+    phone_mast = PhoneMastData(csv_file='test.csv')
+    result = phone_mast.filter_by_lease_years(25)
+    os.remove('test.csv')
+
+    assert len(result[0]) == 2
+    assert result[1] == Decimal('21750.00')

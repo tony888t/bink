@@ -27,8 +27,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Apps
     'phone_mast',
-    # Addition
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
