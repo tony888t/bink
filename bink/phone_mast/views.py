@@ -145,4 +145,3 @@ def filter_lease_date(request):
         'index.html',
         {'property_data': data}
     )
-

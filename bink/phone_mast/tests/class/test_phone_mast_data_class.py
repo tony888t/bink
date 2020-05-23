@@ -143,6 +143,7 @@ def test_filter_by_lease(phone_mast_data_csv):
 def test_tenant_mast_count(phone_mast_data_csv):
     phone_mast = PhoneMastData(csv_file='test.csv')
     result = phone_mast.count_mast_by_tenant()
+    os.remove('test.csv')
 
     assert len(result) == 5
     assert result['Arqiva Ltd'] == 1
@@ -152,6 +153,16 @@ def test_tenant_mast_count(phone_mast_data_csv):
 def test_filter_by_lease_start_date(phone_mast_data_csv):
     phone_mast = PhoneMastData(csv_file='test.csv')
     result = phone_mast.filter_by_lease_start_date('1999-06-01', '2001-07-31')
+    os.remove('test.csv')
 
     assert len(result) == 1
     assert result[0]['Lease Start Date'] == '24/06/1999'
+
+
+# ------ Error Tests ------
+
+
+def test_no_csv_file():
+    result = read_csv(file_name='no_file.csv')
+
+    assert len(result) == 0
