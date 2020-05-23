@@ -1,5 +1,6 @@
 import os
 import csv
+from datetime import datetime
 from decimal import Decimal
 from pprint import pprint
 
@@ -36,7 +37,7 @@ class PhoneMastData:
         print(property_data[:5])
         return property_data
 
-    def filter_by_lease_years(self, lease_year):
+    def filter_by_lease_years(self, lease_year: int):
         property_data = self.data_file
         filtered_data = [data for data in property_data if int(data['Lease Years']) == lease_year]
         total_rent = sum([Decimal(rent['Current Rent']) for rent in filtered_data])
@@ -57,6 +58,24 @@ class PhoneMastData:
 
         pprint(tenants)
         return tenants
+
+    def filter_by_lease_start_date(self, start_date: str, end_date: str):
+        property_data = self.data_file
+        for data in property_data:
+            data['Lease Start Date'] = datetime.strptime(data['Lease Start Date'], '%d %b %Y')
+
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
+        filtered_data_by_date = [
+            data for data in property_data if start_date < data['Lease Start Date'] < end_date
+        ]
+
+        for dates in filtered_data_by_date:
+            dates['Lease Start Date'] = dates['Lease Start Date'].strftime('%d/%m/%Y')
+
+        pprint(filtered_data_by_date)
+        return filtered_data_by_date
 
 
 def get_operation(request):

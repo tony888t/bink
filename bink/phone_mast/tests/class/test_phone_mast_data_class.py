@@ -147,3 +147,11 @@ def test_tenant_mast_count(phone_mast_data_csv):
     assert len(result) == 5
     assert result['Arqiva Ltd'] == 1
     assert result['Cornerstone Telecommunications Infrastructure'] == 2
+
+
+def test_filter_by_lease_start_date(phone_mast_data_csv):
+    phone_mast = PhoneMastData(csv_file='test.csv')
+    result = phone_mast.filter_by_lease_start_date('1999-06-01', '2001-07-31')
+
+    assert len(result) == 1
+    assert result[0]['Lease Start Date'] == '24/06/1999'
