@@ -6,6 +6,7 @@ from pprint import pprint
 
 from django.conf import settings
 from django.shortcuts import render
+from django.views import View
 
 
 def read_csv(file_name=None):
@@ -82,7 +83,8 @@ def get_operation(request):
     """
     Allows the user to select what operation they want to run.
     """
-    return render(request, 'index.html')
+    if request.method == 'GET':
+        return render(request, 'index.html')
 
 
 def sort_by_current_rent(request):
@@ -104,7 +106,7 @@ def filter_by_lease(request):
     """
     Filter data by lease and calculates toatal rent for given lease year.
     """
-    file_path = os.path.join(settings.BcASE_DIR, 'phone_mast/test_data/may2020_test_data.csv')
+    file_path = os.path.join(settings.BASE_DIR, 'phone_mast/test_data/may2020_test_data.csv')
     phone_mast_data = PhoneMastData(csv_file=file_path)
     data, rent = phone_mast_data.filter_by_lease_years(25)
 
@@ -113,3 +115,34 @@ def filter_by_lease(request):
         'index.html',
         {'property_data': data}
     )
+
+
+def tenant_count(request):
+    """
+    Count mast by tenants.
+    """
+    file_path = os.path.join(settings.BASE_DIR, 'phone_mast/test_data/may2020_test_data.csv')
+    phone_mast_data = PhoneMastData(csv_file=file_path)
+    data = phone_mast_data.count_mast_by_tenant()
+
+    return render(
+        request,
+        'index.html',
+        {'property_data': data}
+    )
+
+
+def filter_lease_date(request):
+    """
+    Count mast by tenants.
+    """
+    file_path = os.path.join(settings.BASE_DIR, 'phone_mast/test_data/may2020_test_data.csv')
+    phone_mast_data = PhoneMastData(csv_file=file_path)
+    data = phone_mast_data.filter_by_lease_start_date('1999-06-01', '2001-07-31')
+
+    return render(
+        request,
+        'index.html',
+        {'property_data': data}
+    )
+
