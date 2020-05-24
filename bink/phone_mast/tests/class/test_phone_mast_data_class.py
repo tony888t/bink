@@ -173,5 +173,4 @@ def test_filter_by_lease_start_date_invalid_formate(phone_mast_data_csv):
     phone_mast = PhoneMastData(csv_file='test.csv')
     with pytest.raises(InvalidDateFormat):
         os.remove('test.csv')
-        result = phone_mast.filter_by_lease_start_date('06-01-1999', '2001-07-31')
-        
+        phone_mast.filter_by_lease_start_date('06-01-1999', '2001-07-31')
